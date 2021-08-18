@@ -1,2 +1,7 @@
 # show-me-Code
-talk is cheap show me the code
+
+> talk is cheap show me the code
+
+2021年8月18日，今天面试子节被锤了一顿，反思了一下，发现自己很久没有背八股，也没有再深入学习基础了。目前学习保持的很好，但是成效不好，学的太浅。特地开这个手写系列来巩固一下基础。
+
+手写内容会包括js常见的api、polyfill，迷你的框架等。目标就是坚持更新吧
