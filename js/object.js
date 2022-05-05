@@ -19,20 +19,37 @@ function mergeObject(target, source) {
   return target
 }
 
-console.log(mergeObject({
-  a: 1,
-  b: 2,
-  c: {
-    e: 'abc'
+// console.log(mergeObject({
+//   a: 1,
+//   b: 2,
+//   c: {
+//     e: 'abc'
+//   }
+// }, {
+//   a: 2,
+//   d: 3,
+//   c: {
+//     f: 'dd'
+//   }
+// }))
+
+/**
+ * 判断a是否是objType的实例
+ */
+function instanceofFn(a, objType) {
+  let __proto__ = a.__proto__
+  while (__proto__ != objType.prototype) {
+    if (__proto__.__proto__ === null) {
+      return false
+    }
+    __proto__ = __proto__.__proto__
   }
-}, {
-  a: 2,
-  d: 3,
-  c: {
-    f: 'dd'
-  }
-}))
 
-function instanceofFn() {}
+  return true
+}
 
+function f () {}
 
+let o = new f()
+
+console.log(instanceofFn(o, f))

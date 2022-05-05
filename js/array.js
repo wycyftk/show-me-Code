@@ -3,33 +3,63 @@
  * 数组打平api，迭代器形式
  * @param {*} arr 数组
  */
+// function flatByIterator(arr) {
+//   const queue = [arr]
+//   const res = []
+
+//   if (!Array.isArray(arr)) {
+//     return res
+//   }
+
+//   while (queue.length) {
+//     const el = queue.shift()
+
+//     if (Array.isArray(el)) {
+//       let inArray = false
+//       el.forEach(chEl => {
+//         if (Array.isArray(chEl)) {
+//           inArray = true
+//           queue.push(chEl)
+//         } else {
+//           if (inArray) {
+//             queue.push(chEl)
+//           } else {
+//             res.push(chEl)
+//           }
+//         }
+//       })
+//     } else {
+//       res.push(el)
+//     }
+//   }
+//   return res
+// }
+
 function flatByIterator(arr) {
-  const queue = [arr]
+  const queue = [].concat(arr)
   const res = []
-
-  if (!Array.isArray(arr)) {
-    return res
-  }
-
   while (queue.length) {
-    const el = queue.shift()
-
-    if (Array.isArray(el)) {
-      let inArray = false
-      el.forEach(chEl => {
-        if (Array.isArray(chEl)) {
-          inArray = true
-          queue.push(chEl)
-        } else {
-          if (inArray) {
-            queue.push(chEl)
-          } else {
-            res.push(chEl)
-          }
-        }
-      })
+    const qt = queue.shift()
+    if (Array.isArray(qt)) {
+      for (let i = qt.length - 1; i >= 0; i--) {
+        queue.unshift(qt[i])
+      }
     } else {
-      res.push(el)
+      res.push(qt)
+    }
+  }
+  return res
+}
+
+function flatByStack(arr) {
+  const stack = [].concat(arr)
+  const res = []
+  while (stack.length) {
+    const st = stack.pop()
+    if (Array.isArray(st)) {
+      stack.push(...st)
+    } else {
+      res.unshift(st)
     }
   }
   return res
@@ -55,7 +85,7 @@ function flatByRecursion(arr) {
   dfs(arr)
   return res
 }
-// console.log(flatByIterator([1,2,['3',4,'5',[6,[7,8],9,[10, 11]]]]))
+console.log(flatByStack([1,2,['3',4,'5',[6,[7,8],9,[10, 11]]]]))
 // console.log(flatByRecursion([1,2,['3',4,'5',[6,[7,8],9,[10, 11]]]]))
 
 /**
@@ -65,19 +95,31 @@ function flatByRecursion(arr) {
  * @param {*} initVal 
  * @returns 
  */
+// function reduce(arr, cb, initVal) {
+//   if (!Array.isArray(arr)) {
+//     return []
+//   }
+
+//   if (arr.length <= 0) {
+//     return initVal
+//   }
+
+//   let res = typeof initVal !== 'undefined' ? initVal : arr[0]
+
+//   for (let i = 0; i < arr.length; i++) {
+//     res = cb(res, arr[i], i, arr)
+//   }
+//   return res
+// }
+
 function reduce(arr, cb, initVal) {
-  if (!Array.isArray(arr)) {
-    return []
+  if (arr.length === 0 && initVal) {
+      throw new TypeError()    
   }
-
-  if (arr.length <= 0) {
-    return initVal
-  }
-
-  let res = typeof initVal !== 'undefined' ? initVal : arr[0]
-
-  for (let i = 0; i < arr.length; i++) {
-    res = cb(initVal, arr[i], i, arr)
+  let i = 0
+  let res = typeof initVal === 'undefined' ? (arr[0], i = 1) : initVal
+  for (; i < arr.length; i++) {
+      res = cb(res, arr[i], i, arr)            
   }
   return res
 }
@@ -110,6 +152,6 @@ function reverse(arr) {
   }
 }
 
-const a = [1,2,3,4,5]
-reverse(a)
-console.log(a)
+// const a = [1,2,3,4,5]
+// reverse(a)
+// console.log(a)
